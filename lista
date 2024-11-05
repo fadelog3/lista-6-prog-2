@@ -92,4 +92,44 @@ def main(file_path):
 file_path = 'test_map.txt'
 main(file_path)
 
+#Questão 5
+
+def conta_lagos(matriz):
+    visitados = []
+    
+    def busca(x, y):
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1)]
+        visitados.append((x, y))
+        for dx, dy in directions:
+            vx, vy = x + dx, y + dy
+            if 0 <= vx < len(matriz) and 0 <= vy < len(matriz[0]) and (vx, vy) not in visitados and matriz[vx][vy] == '0':
+                busca(vx, vy)
+
+    for i in range(len(matriz)):
+        for j in [0, len(matriz[0])-1]:
+            if matriz[i][j] == '0' and (i, j) not in visitados:
+                busca(i, j)
+
+    for j in range(len(matriz[0])):
+        for i in [0, len(matriz)-1]: 
+            if matriz[i][j] == '0' and (i, j) not in visitados:
+                busca(i, j)
+
+    n_de_lagos = 0
+    for i in range(len(matriz)):
+        for j in range(len(matriz[0])):
+            if matriz[i][j] == '0' and (i, j) not in visitados:
+                busca(i, j)  
+                n_de_lagos += 1
+
+    return n_de_lagos
+matriz = [
+    ['1', '1', '1', '0', '1'],
+    ['1', '0', '0', '0', '1'],
+    ['1', '0', '1', '0', '1'],
+    ['1', '1', '1', '1', '1']
+]
+
+print(conta_lagos(matriz))
+
 
