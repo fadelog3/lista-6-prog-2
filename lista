@@ -1,0 +1,42 @@
+#Questão 1
+#estamos assumindo que o usuario colocara um grafo não direcionado, ou seja se existe a o item a:['b', ...] no dicionario passado, então existe o item b:['a', ...]
+
+def bfs(grafo:Grafo, vertice_inicial):
+  resultado=[]
+  k=vertice_inicial
+  resultado.append(k)
+  j=0
+  while j<len(resultado):
+    k = resultado[j]
+    for i in grafo.pontos[k]:
+      if i not in resultado:
+        resultado.append(i)
+    j+=1
+  return resultado
+
+if __name__ == '__main__':
+  grafo=Grafo({'a':['b', 'd', 'e'], 'b':['a', 'c'], 'c':['b', 'd'], 'd':['a','c'], 'e':['a']})
+  print(bfs(grafo, 'e'))
+
+
+#Questão 2 
+
+def busca_propriedade(G:Grafo, value:object, vertice_inicial):
+  resultado=[]
+  j=0
+  k=vertice_inicial
+  resultado.append(k)
+  while j<len(resultado):
+    k = resultado[j]
+    for i in grafo.pontos[k]:
+      if i not in resultado:
+        resultado.append(i)
+      if G.get_vertex_value(i)==value:
+        return i
+    j+=1 
+
+if __name__ == '__main__':
+  grafo=Grafo({'a':['b', 'd', 'e'], 'b':['a', 'c'], 'c':['b', 'd'], 'd':['a','c'], 'e':['a']})
+  grafo.set_vertex_value('a', 2)
+  grafo.set_vertex_value('b', 'oiii')
+  print(busca_propriedade(grafo, 'oiii', 'e'))
