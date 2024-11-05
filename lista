@@ -21,7 +21,7 @@ if __name__ == '__main__':
 
 #Questão 2 
 
-def busca_propriedade(G:Grafo, value:object, vertice_inicial):
+def busca_valor(G:Grafo, value:object, vertice_inicial):#função auxiliar
   resultado=[]
   j=0
   k=vertice_inicial
@@ -35,8 +35,15 @@ def busca_propriedade(G:Grafo, value:object, vertice_inicial):
         return i
     j+=1 
 
+def busca_propriedade(G:Grafo, value:object): #começa do primeiro elemento do dicionario
+  b = None
+  for key in G.pontos.keys():
+    b = key
+    break
+  return busca_valor(G, value, b)
+
 if __name__ == '__main__':
   grafo=Grafo({'a':['b', 'd', 'e'], 'b':['a', 'c'], 'c':['b', 'd'], 'd':['a','c'], 'e':['a']})
   grafo.set_vertex_value('a', 2)
   grafo.set_vertex_value('b', 'oiii')
-  print(busca_propriedade(grafo, 'oiii', 'e'))
+  print(busca_propriedade(grafo, 'oiii'))
