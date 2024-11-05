@@ -47,3 +47,49 @@ if __name__ == '__main__':
   grafo.set_vertex_value('a', 2)
   grafo.set_vertex_value('b', 'oiii')
   print(busca_propriedade(grafo, 'oiii'))
+
+
+#Questão 3
+
+def conta_ilhas(matriz):
+  visitados=[]
+  def busca(x, y):
+    directions=  [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+    visitados.append((x,y))
+    for dx, dy in directions:
+      vx=x+dx
+      vy=y+dy
+      if (vx >= 0 and vx < len(matriz)) and ((vy >= 0 and vy < len(matriz[0]))) and (vx,vy) not in visitados and matriz[vx][vy]=='1':
+        busca(x + dx, y + dy)
+      
+
+  n_de_ilhas=0
+
+  for i in range(len(matriz)):
+    for j in range(len(matriz[0])):
+      if matriz[i][j] == '1' and (i,j) not in visitados:
+        busca(i, j)
+        n_de_ilhas += 1
+
+  return n_de_ilhas
+
+def read_matrix_from_file(file_path):
+    with open(file_path, 'r') as file:
+        matrix = []
+        for line in file:
+            row = list(line.strip())  
+            matrix.append(row)
+    return matrix
+
+
+def main(file_path):
+    matrix = read_matrix_from_file(file_path)
+    
+    island_count = conta_ilhas(matrix)
+    
+    print(f'O número de ilhas é: {island_count}')
+
+file_path = 'test_map.txt'
+main(file_path)
+
+
