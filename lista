@@ -92,6 +92,59 @@ def main(file_path):
 file_path = 'test_map.txt'
 main(file_path)
 
+#Questão 4
+
+def conta_ilhas(matriz):
+    visitados = []
+    def busca(x, y):
+        ilhas_coords = [(x, y)]  
+        visitados.append((x, y))
+        directions = [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (-1, 1), (1, -1), (1, 1)]
+        
+        for dx, dy in directions:
+            vx, vy = x + dx, y + dy
+            if 0 <= vx < len(matriz) and 0 <= vy < len(matriz[0]) and (vx, vy) not in visitados and matriz[vx][vy] == '1':
+                ilhas_coords.extend(busca(vx, vy)) 
+        return ilhas_coords
+
+    n_de_ilhas = 0
+    ilhas = []  
+
+    for i in range(len(matriz)):
+        for j in range(len(matriz[0])):
+            if matriz[i][j] == '1' and (i, j) not in visitados:
+                coords_ilha = busca(i, j) 
+                ilhas.append(coords_ilha)  
+                n_de_ilhas += 1
+
+    def calcula_centroide(coords):
+        if not coords:
+            return (0, 0)
+        sum_x = sum(x for x, y in coords)
+        sum_y = sum(y for x, y in coords)
+        n = len(coords)
+        return (sum_x/n , sum_y/n )  
+
+    maior_ilha = max(ilhas, key=len)
+    menor_ilha = min(ilhas, key=len)
+
+    centroide_maior = calcula_centroide(maior_ilha)
+    centroide_menor = calcula_centroide(menor_ilha)
+
+    return n_de_ilhas, centroide_maior, centroide_menor
+
+
+
+matriz = [
+    ['1', '1', '1'],
+    ['1', '0', '0'],
+    ['0', '1', '1']
+]
+n_ilhas, centroide_maior, centroide_menor = conta_ilhas(matriz)
+print(f"Total de ilhas: {n_ilhas}")
+print(f"Centroide da maior ilha: {centroide_maior}")
+print(f"Centroide da menor ilha: {centroide_menor}")
+
 #Questão 5
 
 def conta_lagos(matriz):
